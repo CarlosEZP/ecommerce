@@ -1,4 +1,4 @@
-package dev.carlosezp.ecommerce.model;
+package dev.carlosezp.ecommerce.models;
 
 public class Category {
     private Long id;
