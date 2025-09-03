@@ -14,7 +14,7 @@ public class CategoryController {
     List<Category> categories = new ArrayList<Category>();
 
     @GetMapping("/api/public/categories")
-    public List<Category> getAllCategories(){
+    public List<Category> getAll(){
         return categories;
     }
 
