@@ -1,5 +1,8 @@
-package dev.carlosezp.ecommerce.exceptions;
+package dev.carlosezp.ecommerce.exceptions.handler;
 
+import dev.carlosezp.ecommerce.exceptions.APIException;
+import dev.carlosezp.ecommerce.exceptions.ResourceNotFoundException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -22,5 +25,14 @@ public class GlobalExceptionHandler {
                     response.put(fieldName, message);
                 });
         return ResponseEntity.badRequest().body(response);
+    }
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<String> resourceNotFound(ResourceNotFoundException exception){
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
+    }
+    @ExceptionHandler(APIException.class)
+    public ResponseEntity<String> apiException(APIException exception){
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
     }
 }
