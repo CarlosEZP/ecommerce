@@ -2,8 +2,8 @@ package dev.carlosezp.ecommerce.controllers;
 
 import dev.carlosezp.ecommerce.interfaces.CategoryService;
 import dev.carlosezp.ecommerce.models.Category;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -25,7 +25,7 @@ public class CategoryController {
     }
 
     @PostMapping("/api/public/categories")
-    public ResponseEntity<String> add(@RequestBody Category category){
+    public ResponseEntity<String> add(@Valid @RequestBody Category category){
         String status = categoryService.add(category);
         return new ResponseEntity<>(status, HttpStatus.OK);
     }
