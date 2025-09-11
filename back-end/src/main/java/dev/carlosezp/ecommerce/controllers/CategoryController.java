@@ -1,26 +1,52 @@
 package dev.carlosezp.ecommerce.controllers;
 
-import dev.carlosezp.ecommerce.model.Category;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.ArrayList;
-import java.util.List;
+import dev.carlosezp.ecommerce.interfaces.CategoryService;
+import dev.carlosezp.ecommerce.payload.CategoryDTO;
+import dev.carlosezp.ecommerce.payload.CategoryResponse;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import static dev.carlosezp.ecommerce.config.AppConstants.*;
 
 @RestController()
 public class CategoryController {
-    List<Category> categories = new ArrayList<Category>();
+    CategoryService categoryService;
+
+    public CategoryController(CategoryService categoryService) {
+        this.categoryService = categoryService;
+    }
+
+    @GetMapping("/echo")
+    public ResponseEntity<String> echo(@RequestParam(name = "message") String message){
+        return new ResponseEntity<>("This is your message: " + message,HttpStatus.OK);
+    }
 
     @GetMapping("/api/public/categories")
-    public List<Category> getAll(){
-        return categories;
+    public ResponseEntity<CategoryResponse> getAll(
+            @RequestParam(name = "pageNumber", defaultValue = PAGE_NUMBER, required = false) Integer pageNumber,
+            @RequestParam(name = "pageSize", defaultValue = PAGE_SIZE, required = false) Integer pageSize,
+            @RequestParam(name = "sortBy", defaultValue = SORT_CATEGORIES_BY, required = false) String sortBy,
+            @RequestParam(name = "sortOrder", defaultValue = SORT_ORDER, required = false) String sortOrder){
+        CategoryResponse categoryResponse = categoryService.getAll(pageNumber, pageSize, sortBy, sortOrder);
+        return new ResponseEntity<>(categoryResponse,HttpStatus.OK);
     }
 
     @PostMapping("/api/public/categories")
-    public String add(@RequestBody Category category){
-        categories.add(category);
-        return "Category added successfully";
+    public ResponseEntity<CategoryDTO> create(@Valid @RequestBody CategoryDTO categoryDTO){
+        CategoryDTO response = categoryService.create(categoryDTO);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("/api/admin/categories/{categoryId}")
+    public void delete(@PathVariable Long categoryId){
+        categoryService.delete(categoryId);
+    }
+
+    @PutMapping("/api/public/categories/{categoryId}")
+    public ResponseEntity<CategoryDTO> update(@Valid @PathVariable Long categoryId,
+                                         @RequestBody CategoryDTO categoryDTOUpdated){
+        CategoryDTO response = categoryService.update(categoryId, categoryDTOUpdated);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
