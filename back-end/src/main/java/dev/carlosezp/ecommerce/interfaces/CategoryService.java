@@ -1,12 +1,11 @@
 package dev.carlosezp.ecommerce.interfaces;
 
-import dev.carlosezp.ecommerce.models.Category;
-
-import java.util.List;
+import dev.carlosezp.ecommerce.payload.CategoryDTO;
+import dev.carlosezp.ecommerce.payload.CategoryResponse;
 
 public interface CategoryService {
-    List<Category> getAll();
-    String add(Category category);
-    String delete(Long categoryId);
-    String update(Category category);
+    CategoryResponse getAll(Integer pageNumber, Integer pageSize, String sortBy, String sortOrder);
+    CategoryDTO create(CategoryDTO category);
+    void delete(Long categoryId);
+    CategoryDTO update(Long categoryId, CategoryDTO category);
 }
