@@ -10,6 +10,6 @@ import java.util.Map;
 @AllArgsConstructor
 @NoArgsConstructor
 public class APIResponse {
-    private Map<String, String> message;
+    private String message;
     private boolean status;
 }

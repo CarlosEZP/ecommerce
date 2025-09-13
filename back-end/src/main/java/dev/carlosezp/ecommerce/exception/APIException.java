@@ -1,4 +1,4 @@
-package dev.carlosezp.ecommerce.exceptions;
+package dev.carlosezp.ecommerce.exception;
 
 public class APIException extends RuntimeException{
     private static final long serialVersionUID = 1L;

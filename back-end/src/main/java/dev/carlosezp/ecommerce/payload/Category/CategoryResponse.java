@@ -1,4 +1,4 @@
-package dev.carlosezp.ecommerce.payload;
+package dev.carlosezp.ecommerce.payload.Category;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

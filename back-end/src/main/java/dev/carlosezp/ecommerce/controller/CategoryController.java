@@ -1,8 +1,8 @@
-package dev.carlosezp.ecommerce.controllers;
+package dev.carlosezp.ecommerce.controller;
 
-import dev.carlosezp.ecommerce.interfaces.CategoryService;
-import dev.carlosezp.ecommerce.payload.CategoryDTO;
-import dev.carlosezp.ecommerce.payload.CategoryResponse;
+import dev.carlosezp.ecommerce.service.interfaces.CategoryService;
+import dev.carlosezp.ecommerce.payload.Category.CategoryDTO;
+import dev.carlosezp.ecommerce.payload.Category.CategoryResponse;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,11 +15,6 @@ public class CategoryController {
 
     public CategoryController(CategoryService categoryService) {
         this.categoryService = categoryService;
-    }
-
-    @GetMapping("/echo")
-    public ResponseEntity<String> echo(@RequestParam(name = "message") String message){
-        return new ResponseEntity<>("This is your message: " + message,HttpStatus.OK);
     }
 
     @GetMapping("/api/public/categories")

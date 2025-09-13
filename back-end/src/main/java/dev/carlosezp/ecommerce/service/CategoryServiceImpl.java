@@ -1,12 +1,12 @@
-package dev.carlosezp.ecommerce.services;
+package dev.carlosezp.ecommerce.service;
 
-import dev.carlosezp.ecommerce.exceptions.APIException;
-import dev.carlosezp.ecommerce.exceptions.ResourceNotFoundException;
-import dev.carlosezp.ecommerce.interfaces.CategoryService;
-import dev.carlosezp.ecommerce.models.Category;
-import dev.carlosezp.ecommerce.payload.CategoryDTO;
-import dev.carlosezp.ecommerce.payload.CategoryResponse;
-import dev.carlosezp.ecommerce.repositories.CategoryRepository;
+import dev.carlosezp.ecommerce.exception.APIException;
+import dev.carlosezp.ecommerce.exception.ResourceNotFoundException;
+import dev.carlosezp.ecommerce.service.interfaces.CategoryService;
+import dev.carlosezp.ecommerce.entity.Category;
+import dev.carlosezp.ecommerce.payload.Category.CategoryDTO;
+import dev.carlosezp.ecommerce.payload.Category.CategoryResponse;
+import dev.carlosezp.ecommerce.repository.CategoryRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

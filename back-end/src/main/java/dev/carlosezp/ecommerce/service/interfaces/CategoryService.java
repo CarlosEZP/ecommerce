@@ -1,7 +1,7 @@
-package dev.carlosezp.ecommerce.interfaces;
+package dev.carlosezp.ecommerce.service.interfaces;
 
-import dev.carlosezp.ecommerce.payload.CategoryDTO;
-import dev.carlosezp.ecommerce.payload.CategoryResponse;
+import dev.carlosezp.ecommerce.payload.Category.CategoryDTO;
+import dev.carlosezp.ecommerce.payload.Category.CategoryResponse;
 
 public interface CategoryService {
     CategoryResponse getAll(Integer pageNumber, Integer pageSize, String sortBy, String sortOrder);

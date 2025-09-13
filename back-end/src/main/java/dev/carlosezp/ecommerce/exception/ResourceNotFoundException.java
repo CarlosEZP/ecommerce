@@ -1,4 +1,4 @@
-package dev.carlosezp.ecommerce.exceptions;
+package dev.carlosezp.ecommerce.exception;
 
 public class ResourceNotFoundException extends RuntimeException {
     String resourceName;

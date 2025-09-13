@@ -1,6 +1,6 @@
-package dev.carlosezp.ecommerce.repositories;
+package dev.carlosezp.ecommerce.repository;
 
-import dev.carlosezp.ecommerce.models.Category;
+import dev.carlosezp.ecommerce.entity.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
