@@ -8,6 +8,7 @@ import dev.carlosezp.ecommerce.payload.Product.ProductDTO;
 import dev.carlosezp.ecommerce.payload.Product.ProductResponse;
 import dev.carlosezp.ecommerce.repository.CategoryRepository;
 import dev.carlosezp.ecommerce.repository.ProductRepository;
+import dev.carlosezp.ecommerce.service.interfaces.FileService;
 import dev.carlosezp.ecommerce.service.interfaces.ProductService;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -18,13 +19,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.List;
-import java.util.UUID;
 
 import static dev.carlosezp.ecommerce.config.AppConstants.IMAGES_PATH;
 
@@ -37,6 +33,8 @@ public class ProductServiceImpl implements ProductService {
     CategoryRepository categoryRepository;
     @Autowired
     ModelMapper modelMapper;
+    @Autowired
+    FileService fileService;
 
     @Override
     public ProductResponse getAll(Integer pageNumber, Integer pageSize, String sortBy, String sortOrder, Long categoryId) {
@@ -81,8 +79,8 @@ public class ProductServiceImpl implements ProductService {
         Category category = categoryRepository.findById(categoryId)
                 .orElseThrow(() -> new ResourceNotFoundException("Category","id",categoryId));
 
-        if(productRepository.findByName(productDTO.getProductName()) != null)
-            throw new APIException(String.format("Product with the name \"%s\" already exists",productDTO.getProductName()));
+        if(productRepository.findByNameAndCategoryId(productDTO.getProductName(),category.getId()) != null)
+            throw new APIException(String.format("Product with the name \"%s\" already exists in category \"%s\"",productDTO.getProductName(),category.getName()));
 
         Product newProduct = modelMapper.map(productDTO,Product.class);
         newProduct.setCategory(category);
@@ -142,23 +140,9 @@ public class ProductServiceImpl implements ProductService {
     public ProductDTO updateProductImage(Long productId, MultipartFile image) throws IOException {
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new ResourceNotFoundException("Product","id",productId));
-        String fileName = uploadImage(IMAGES_PATH, image);
-        product.setImage(image.toString());
+        String fileName = fileService.uploadImage(IMAGES_PATH, image);
+        product.setImage(fileName);
         return modelMapper.map(productRepository.save(product), ProductDTO.class);
-    }
-
-    private String uploadImage(String path, MultipartFile file) throws IOException {
-        String originalFileName = file.getName();
-        String randomId = UUID.randomUUID().toString();
-        String fileName = randomId.concat(originalFileName.substring(originalFileName.lastIndexOf(".")));
-        String filePath = path + File.pathSeparator + fileName;
-
-        File folder = new File(path);
-        if(!folder.exists())
-            folder.mkdir();
-
-        Files.copy(file.getInputStream(), Paths.get(filePath));
-        return fileName;
     }
 
     private static String sortByMap(String sortBy){
