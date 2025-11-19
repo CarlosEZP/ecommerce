@@ -36,6 +36,9 @@ public class Product {
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
+    @ManyToOne
+    @JoinColumn(name = "seller_id")
+    private User user;
 
     public void updateSpecialPrice(Double discount){
         this.specialPrice = this.price - (this.price * (discount / 100));
